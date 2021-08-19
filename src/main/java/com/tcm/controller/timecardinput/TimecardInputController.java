@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tcm.consts.TimecardInputConsts;
 import com.tcm.dto.login.UserAccount;
 import com.tcm.dto.login.UserModel;
 import com.tcm.dto.timecardinput.ApprovalDto;
@@ -35,23 +36,13 @@ import com.tcm.repository.TimecardInputMapper;
 import com.tcm.service.LoginUserService;
 import com.tcm.service.input.ApprovalService;
 
+import lombok.Data;
 import lombok.var;
 
 @Controller
 @RequestMapping("/timecard-input")
-public class TimecardInputController {
-	/** HTML */
-	private static final String TIMECARD_INPUT_HTML = "timecard-input";
-	/** data */
-	private static final String TIMECARD_INPUT_DATA = "timecardInputData";
-	/** 初期表示. */
-	private static final String ACTION_PATH_INIT = "init";
-	/** 更新処理. */
-	private static final String ACTION_PATH_UPDATE = "update";
-	/** 承認処理. */
-    private static final String ACTION_PATH_APPROVAL = "approval";
-	/** モーダル処理. */
-	private static final String ACTION_PATH_MODAL = "modal";
+@Data
+public class TimecardInputController implements TimecardInputConsts{
 
 	@Autowired TimecardInputMapper mapper;
 
