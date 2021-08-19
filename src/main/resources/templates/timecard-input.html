@@ -21,8 +21,18 @@
 	  </select>
       <input class="mb20" type="button" id="selectKintaiSubmit" onclick="javascript:clickKintaiSelect();" value="年月選択">
         <table class="mb10" style="background-color:#d8f2da;">
+          <!-- テーブルヘッダ -->
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>始業</th>
+              <th>終業</th>
+              <th>合計</th>
+            </tr>
+          </thead>
           <!-- 中身 -->
-          <th:block th:each="item, stat : *{timecardInputDtoList}">
+          <tbody>
+            <th:block th:each="item, stat : *{timecardInputDtoList}">
 	          <tr>
 	            <td th:text="|${item.hizuke}${item.youbi}|"></td>
 	            <td>
@@ -37,8 +47,10 @@
 	                th:field="*{timecardInputDtoList[__${stat.index}__].gogo}"
 	                th:disabled="${timecardInputData.approvalStatusCd eq '01'}" readonly>
 	            </td>
+	            <td>8:00</td>
 	          </tr>
-          </th:block>
+            </th:block>
+          </tbody>
         </table>
       </div>
     </form>
@@ -56,10 +68,10 @@
             <script th:src="@{../js/timecard-input.js}"></script>
         </form>
     </div>
-  	 <div id="modal" class="modal">
+  	 <div id="modal" class="modal" onclick="javascript:closeModal();">
 	  <div class="modal-content">
-		  <form th:action="@{/timecard-input/modal}" method="post">
-			    <div class="modal-body main">
+		  <form th:action="@{/timecard-input/modal}" method="post" id="updateForm">
+			    <div class="modal-body main" onclick="javascript:doNothing(event);">
 			      <div class="mt20 mb10"><span id="modalDisplayYear"></span><span id="modalDisplayDate"></span></div>
 			      <div class="mb10">
 			        <input type="time" id="modal_from" class="form-control margin-bottom-20"
@@ -71,8 +83,8 @@
 			        <input type="hidden" id="modal_userId" th:field="${timecardInputData.modalUserId}">
 			      </div>
 			      <div class="mb20">
-			        <input type="submit" value="更新">
-			        <input type="button" id="closeBtn" value="キャンセル" onclick="javascript:closeModai();">
+			        <input type="button" value="更新" onclick="javascript:checkUpdateData();">
+			        <input type="button" id="closeBtn" value="キャンセル" onclick="javascript:closeModal();">
 			      </div>
 			    </div>
 			</form>
