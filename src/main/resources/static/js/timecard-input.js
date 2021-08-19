@@ -11,13 +11,17 @@ clickInputGogo = (a) => {
 	var str = a
 	var id = str.replace('.gogo', '');
 	displayModal(id);
-
 };
 
 // モーダルを閉じる
-closeModai = () => {
+closeModal = () => {
 	var closeBtn = document.getElementById('closeBtn');
 	modal.style.display = 'none';
+	document.body.classList.remove('modal-active');
+};
+
+doNothing = (e) => {
+	e.stopPropagation();
 };
 
 // モーダル表示処理
@@ -47,6 +51,7 @@ displayModal = (id) =>{
 
 	var modal = document.getElementById('modal');
 	modal.style.display = 'block';
+	document.body.classList.add('modal-active');
 };
 
 // 勤怠選択処理
@@ -61,6 +66,26 @@ clickKintaiSelect = () => {
 	//document.getElementById('sendUserId').value = userId;
 
 	form.submit();
+};
 
-
+// 入力時間チェック
+checkUpdateData = () => {
+	var REGULAR_TIME = 8;
+	var MilliToHour = 60 * 60 * 1000;
+	var form = document.forms['updateForm'];
+	var modal_date = document.getElementById('modal_date').value;
+	var modal_from = document.getElementById('modal_from').value;
+	var modal_to = document.getElementById('modal_to').value;
+	var date_from = new Date(modal_date + " " + modal_from);
+	var date_to = new Date(modal_date + " " + modal_to);
+	var total_hour = (date_to - date_from) / MilliToHour;
+	if (date_from >= date_to) {
+		alert('始業時間は終業時間より前の時刻を入力してください');
+		closeModal();
+	} else if (total_hour >= REGULAR_TIME) {
+		alert("合計時間が8時間を超えています");
+		form.submit();
+	} else {
+		form.submit();
+	}
 };
